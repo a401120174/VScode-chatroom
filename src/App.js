@@ -1,15 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { setToggle, fectcRooms } from "./actions/toggleAction.js";
+import { connect } from "react-redux";
 
-function App() {
+function App(props) {
+  console.log(props);
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p onClick={props.onClick}>{props.toggle ? "yes" : "no"}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -23,4 +24,22 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    toggle: state.toggle,
+    rooms: state.rooms
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onClick: () => {
+      dispatch(fectcRooms());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
