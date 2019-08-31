@@ -1,0 +1,33 @@
+@import "../../commonStyle.scss";
+
+.wrapper {
+  flex-grow: 1;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+.msgBox {
+  display: flex;
+  margin-bottom: 10px;
+  .time {
+    padding-right: 15px;
+    color: $fontGray;
+  }
+  .msgTag {
+    color: $fontBlue;
+  }
+  .content {
+    margin: 10px 0 10px 10px;
+    padding-left: 10px;
+    border-left: 1px solid $fontGray;
+  }
+  &.isSelf {
+    .rightBox {
+      margin-left: 40px;
+    }
+
+    .msgTag {
+      color: $fontGreen;
+    }
+  }
+}

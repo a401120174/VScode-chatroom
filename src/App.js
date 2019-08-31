@@ -1,45 +1,65 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { setToggle, fectcRooms } from "./actions/toggleAction.js";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import styles from "./App.module.scss";
+import * as action from "./actions/socketAction.js";
+import { connect, useSelector, useDispatch } from "react-redux";
+import webSocket from "socket.io-client";
+import Content from "./components/Content/Content";
+import TextInput from "./components/TextInput/TextInput";
 
 function App(props) {
-  console.log(props);
+  const dispatch = useDispatch();
+  const socketReducer = useSelector(state => state);
+
+  //連上Socket
+  useEffect(() => {
+    dispatch(action.getSocket());
+    return () => {
+      // cleanup;
+    };
+  }, []);
+
+  //連上Socket後訂閱Socket事件
+  useEffect(() => {
+    const { socket } = socketReducer;
+
+    if (socket) {
+      socket.on("online", message => {
+        console.log(message);
+      });
+
+      socket.on("msg", message => {
+        dispatch(action.updateMsg(message));
+      });
+    }
+    return () => {
+      // cleanup;
+    };
+  }, [socketReducer.socket]);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    socketReducer.socket.emit("send", {
+      name: socketReducer.userName,
+      msg: socketReducer.currentMsg
+    });
+  };
+
+  const onChangeMsg = e => {
+    dispatch(action.changeMsg(e.target.value));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p onClick={props.onClick}>{props.toggle ? "yes" : "no"}</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.App}>
+      <div className={styles.rightPart}>
+        <Content msg={socketReducer.msg} />
+        <TextInput
+          onSubmit={onSubmit}
+          onChangeMsg={onChangeMsg}
+          value={socketReducer.currentMsg}
+        />
+      </div>
     </div>
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    toggle: state.toggle,
-    rooms: state.rooms
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onClick: () => {
-      dispatch(fectcRooms());
-    }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

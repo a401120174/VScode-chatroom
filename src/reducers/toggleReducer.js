@@ -1,6 +1,10 @@
 const initstate = {
   toggle: true,
-  roomss: []
+  roomss: [],
+  socket: null,
+  userName: "Louis",
+  msg: [],
+  currentMsg: ""
 };
 
 const todo = (state = initstate, action) => {
@@ -9,6 +13,13 @@ const todo = (state = initstate, action) => {
       return { ...state, toggle: !state.toggle };
     case "ROOM_FETCH_SUCCEEDED":
       return { ...state, rooms: action.rooms };
+    case "GET_SOCKET_SCS":
+      console.log("scs");
+      return { ...state, socket: action.ws };
+    case "UPDATE_MSG":
+      return { ...state, msg: [...state.msg, action.msg] };
+    case "CHANGE_MSG":
+      return { ...state, currentMsg: action.msg };
     default:
       return state;
   }
