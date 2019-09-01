@@ -37,3 +37,17 @@ export const changeMsg = msg => {
     msg
   };
 };
+
+export const setId = id => {
+  return {
+    type: "SET_ID",
+    id
+  };
+};
+
+export const openPopup = popup => {
+  return {
+    type: "OPEN_POPUP",
+    popup
+  };
+};

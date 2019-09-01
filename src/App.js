@@ -5,6 +5,7 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import webSocket from "socket.io-client";
 import Content from "./components/Content/Content";
 import TextInput from "./components/TextInput/TextInput";
+import Popup from "./components/Popup/Popup";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -48,8 +49,50 @@ function App(props) {
     dispatch(action.changeMsg(e.target.value));
   };
 
+  const setId = () => {
+    dispatch(action.setId(socketReducer.userName || "undefinedUser"));
+    dispatch(action.openPopup(""));
+  };
+
+  const openIdSetPop = () => {
+    dispatch(action.openPopup("SET_ID"));
+  };
+
+  const onChangeId = e => {
+    dispatch(action.setId(e.target.value));
+  };
+
+  const renderPopup = () => {
+    switch (socketReducer.popup) {
+      case "SET_ID_TYPE":
+        return (
+          <div className={styles.idType}>
+            <div onClick={setId}>[匿名聊天]</div>
+            <div onClick={openIdSetPop}>[暱稱聊天]</div>
+          </div>
+        );
+      case "SET_ID":
+        return (
+          <div className={styles.idSet}>
+            <div className={styles.title}>暱稱聊天</div>
+            <input
+              value={socketReducer.userName}
+              onChange={onChangeId}
+              placeholder="輸入暱稱"
+            />
+            <div onClick={setId} className={styles.confirm}>
+              [確定]
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={styles.App}>
+      <Popup content={renderPopup()} isOpen={!!socketReducer.popup} />
       <div className={styles.rightPart}>
         <Content msg={socketReducer.msg} />
         <TextInput
