@@ -10,52 +10,49 @@ import UserOnlineBar from "./components/UserOnlineBar/UserOnlineBar";
 
 function App(props) {
   const dispatch = useDispatch();
-  const socketReducer = useSelector(state => state);
+  const chatReducer = useSelector(state => state);
   const databaseMsg = useRef();
 
-  //連上Socket
+  //連上firebase
   useEffect(() => {
-    dispatch(action.getSocket());
-    return () => {
-      // cleanup;
-    };
+    dispatch(action.getFirebase());
   }, []);
+
+  //自動滾到最底
+  useEffect(() => {
+    const ele = document.querySelector("#content");
+    ele.scrollTop = ele.scrollHeight;
+  }, [chatReducer.msg.length]);
 
   //連上Socket後訂閱Socket事件
   useEffect(() => {
-    const { database } = socketReducer;
+    const { database } = chatReducer;
 
     if (database) {
-      // socket.on("online", message => {
-      //   console.log(message);
-      // });
-
-      // socket.on("msg", message => {
-      //   dispatch(action.updateMsg(message));
-      // });
       databaseMsg.current = firebase.database().ref("msg");
 
+      //初始化時抓全部的訊息
       databaseMsg.current.once("value").then(function(snapshot) {
-        console.log(snapshot.val());
-
         const newMsgArr = [];
         for (var i in snapshot.val()) {
           newMsgArr.push({
             name: snapshot.val()[i].name,
-            msg: snapshot.val()[i].msg
+            msg: snapshot.val()[i].msg,
+            time: snapshot.val()[i].time
           });
         }
         dispatch(action.updateMsg(newMsgArr, true));
       });
 
+      //訊息更新時抓最新的一筆訊息
       databaseMsg.current.limitToLast(1).on("value", function(snapshot) {
-        console.log(snapshot.val());
         for (var i in snapshot.val()) {
           dispatch(
             action.updateMsg(
               {
                 name: snapshot.val()[i].name,
-                msg: snapshot.val()[i].msg
+                msg: snapshot.val()[i].msg,
+                time: snapshot.val()[i].time
               },
               false
             )
@@ -67,32 +64,33 @@ function App(props) {
       const onlineUser = firebase.database().ref("user");
       var userRef = onlineUser.push();
 
+      //紀錄上線人數
       connectedRef.on("value", function(snap) {
-        console.log(snap.val());
         if (snap.val()) {
-          // Remove ourselves when we disconnect.
           userRef.onDisconnect().remove();
-
           userRef.set(true);
         }
       });
 
       onlineUser.on("value", function(snap) {
-        console.log("# of online users = " + snap.numChildren());
+        dispatch(action.updateOnlineUser(snap.numChildren()));
       });
     }
-
-    return () => {
-      // cleanup;
-    };
-  }, [socketReducer.database]);
+  }, [chatReducer.database]);
 
   const onSubmit = e => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+
+    if (chatReducer.currentMsg.trim().length === 0) return;
+    const now = new Date();
+    const hour = now.getHours();
+    let minute =
+      now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
 
     const postData = {
-      name: socketReducer.userName,
-      msg: socketReducer.currentMsg
+      name: chatReducer.userName,
+      msg: chatReducer.currentMsg,
+      time: `${hour}:${minute}`
     };
 
     const newPostKey = firebase
@@ -102,13 +100,11 @@ function App(props) {
       .push().key;
     const updates = {};
     updates[newPostKey] = postData;
+
     //寫入資料
     databaseMsg.current.update(updates);
 
-    // socketReducer.socket.emit("send", {
-    //   name: socketReducer.userName,
-    //   msg: socketReducer.currentMsg
-    // });
+    dispatch(action.changeMsg(""));
   };
 
   const onChangeMsg = e => {
@@ -116,7 +112,8 @@ function App(props) {
   };
 
   const setId = () => {
-    dispatch(action.setId(socketReducer.userName || "無名氏"));
+    const ramdom = Math.floor(Math.random() * 1000);
+    dispatch(action.setId(chatReducer.userName || `無名氏${ramdom}`));
     dispatch(action.openPopup(""));
   };
 
@@ -125,11 +122,11 @@ function App(props) {
   };
 
   const onChangeId = e => {
-    dispatch(action.setId(e.target.value));
+    dispatch(action.setId(e.target.value.trim()));
   };
 
   const renderPopup = () => {
-    switch (socketReducer.popup) {
+    switch (chatReducer.popup) {
       case "SET_ID_TYPE":
         return (
           <div className={styles.idType}>
@@ -142,7 +139,7 @@ function App(props) {
           <div className={styles.idSet}>
             <div className={styles.title}>暱稱聊天</div>
             <input
-              value={socketReducer.userName}
+              value={chatReducer.userName}
               onChange={onChangeId}
               placeholder="輸入暱稱"
             />
@@ -158,15 +155,15 @@ function App(props) {
 
   return (
     <div className={styles.App}>
-      <Popup content={renderPopup()} isOpen={!!socketReducer.popup} />
+      <Popup content={renderPopup()} isOpen={!!chatReducer.popup} />
       <div className={styles.rightPart}>
-        <Content msg={socketReducer.msg} />
-        <UserOnlineBar onlineCount={"1"} />
+        <Content msg={chatReducer.msg} userName={chatReducer.userName} />
+        <UserOnlineBar onlineCount={chatReducer.onlineUser} />
         <TextInput
-          user={socketReducer.userName}
+          user={chatReducer.userName}
           onSubmit={onSubmit}
           onChangeMsg={onChangeMsg}
-          value={socketReducer.currentMsg}
+          value={chatReducer.currentMsg}
         />
       </div>
     </div>

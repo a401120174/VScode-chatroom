@@ -4,11 +4,15 @@
   flex-grow: 1;
   padding: 25px;
   box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .msgBox {
   display: flex;
   margin-bottom: 10px;
+  &:last-child {
+    margin-bottom: 0;
+  }
   .time {
     padding-right: 15px;
     color: $fontGray;

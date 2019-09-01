@@ -5,7 +5,8 @@ const initstate = {
   userName: "",
   msg: [],
   currentMsg: "",
-  popup: "SET_ID_TYPE"
+  popup: "SET_ID_TYPE",
+  onlineUser: 0
 };
 
 const todo = (state = initstate, action) => {
@@ -14,13 +15,12 @@ const todo = (state = initstate, action) => {
       return { ...state, toggle: !state.toggle };
     case "ROOM_FETCH_SUCCEEDED":
       return { ...state, rooms: action.rooms };
-    case "GET_SOCKET_SCS":
+    case "GET_FIREBASE_SCS":
       return { ...state, database: action.database };
     case "UPDATE_MSG":
       if (action.isAll) {
         return { ...state, msg: [...action.msg] };
       } else {
-        console.log(action.msg);
         return { ...state, msg: [...state.msg, action.msg] };
       }
     case "CHANGE_MSG":
@@ -29,6 +29,8 @@ const todo = (state = initstate, action) => {
       return { ...state, userName: action.id };
     case "OPEN_POPUP":
       return { ...state, popup: action.popup };
+    case "UPDATE_ONLINE_USER":
+      return { ...state, onlineUser: action.count };
     default:
       return state;
   }

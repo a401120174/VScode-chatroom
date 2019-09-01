@@ -11,16 +11,9 @@ export const fectcRooms = () => {
   };
 };
 
-export const getSocket = () => {
+export const getFirebase = () => {
   return {
-    type: "GET_SOCKET"
-  };
-};
-
-export const getSocketScs = ws => {
-  return {
-    type: "GET_SOCKET_SCS",
-    ws
+    type: "GET_FIREBASE"
   };
 };
 
@@ -50,5 +43,12 @@ export const openPopup = popup => {
   return {
     type: "OPEN_POPUP",
     popup
+  };
+};
+
+export const updateOnlineUser = count => {
+  return {
+    type: "UPDATE_ONLINE_USER",
+    count
   };
 };

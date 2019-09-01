@@ -3,11 +3,14 @@ import styles from "./TextInput.module.scss";
 
 const TextInput = ({ onSubmit, onChangeMsg, value, user }) => {
   const inputEl = useRef(null);
+  const submitEl = useRef(null);
 
-  //   const onTextSubmit = e => {
-  //     e.preventDefault();
-  //     onSubmit(inputEl.value);
-  //   };
+  const pressEnter = e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      submitEl.current.click();
+    }
+  };
 
   return (
     <div className={styles.box}>
@@ -18,8 +21,14 @@ const TextInput = ({ onSubmit, onChangeMsg, value, user }) => {
           value={value}
           onChange={onChangeMsg}
           className={styles.textInput}
+          onKeyUp={pressEnter}
         />
-        <input type="submit" value="送出" className={styles.submit} />
+        <input
+          ref={submitEl}
+          type="submit"
+          value="送出"
+          className={styles.submit}
+        />
       </form>
     </div>
   );
