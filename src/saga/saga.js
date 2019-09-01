@@ -1,5 +1,6 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import webSocket from "socket.io-client";
+// import webSocket from "socket.io-client";
+import * as firebase from "firebase";
 
 // function* fecthData(uri) {
 //   const data = yield fetch(uri, {
@@ -25,8 +26,14 @@ import webSocket from "socket.io-client";
 
 function* getSocket(action) {
   try {
-    const ws = yield webSocket("http://localhost:3000");
-    yield put({ type: "GET_SOCKET_SCS", ws: ws });
+    var config = {
+      // apiKey: "apiKey",
+      // authDomain: "projectId.firebaseapp.com",
+      databaseURL: "https://mychatroom-b5909.firebaseio.com"
+    };
+    firebase.initializeApp(config);
+    // const ws = yield webSocket("http://localhost:3000");
+    yield put({ type: "GET_SOCKET_SCS", database: true });
   } catch (e) {
     console.log(e);
     yield put({ type: "ROOM_FETCH_FAILED", message: e.message });

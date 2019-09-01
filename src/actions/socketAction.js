@@ -24,10 +24,11 @@ export const getSocketScs = ws => {
   };
 };
 
-export const updateMsg = msg => {
+export const updateMsg = (msg, isAll = false) => {
   return {
     type: "UPDATE_MSG",
-    msg
+    msg,
+    isAll
   };
 };
 

@@ -1,0 +1,27 @@
+@import "../../commonStyle.scss";
+
+.box {
+  height: 168px;
+  padding: 16px;
+  background-color: $bgBlack;
+  color: $fontWhite;
+  position: relative;
+  box-sizing: border-box;
+  .textInput {
+    background-color: transparent;
+    border: none;
+    display: block;
+    height: 100px;
+    width: 100%;
+  }
+  .submit {
+    background-color: #303030;
+    border: none;
+    padding: 8px 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: $fontWhite;
+    cursor: pointer;
+  }
+}

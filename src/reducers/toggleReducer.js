@@ -1,7 +1,7 @@
 const initstate = {
   toggle: true,
   roomss: [],
-  socket: null,
+  database: null,
   userName: "",
   msg: [],
   currentMsg: "",
@@ -15,9 +15,14 @@ const todo = (state = initstate, action) => {
     case "ROOM_FETCH_SUCCEEDED":
       return { ...state, rooms: action.rooms };
     case "GET_SOCKET_SCS":
-      return { ...state, socket: action.ws };
+      return { ...state, database: action.database };
     case "UPDATE_MSG":
-      return { ...state, msg: [...state.msg, action.msg] };
+      if (action.isAll) {
+        return { ...state, msg: [...action.msg] };
+      } else {
+        console.log(action.msg);
+        return { ...state, msg: [...state.msg, action.msg] };
+      }
     case "CHANGE_MSG":
       return { ...state, currentMsg: action.msg };
     case "SET_ID":
