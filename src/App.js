@@ -29,52 +29,130 @@ function App(props) {
     const { database } = chatReducer;
 
     if (database) {
-      databaseMsg.current = firebase.database().ref("msg");
+      // databaseMsg.current = firebase.database().ref("msg");
+      const db = firebase.firestore();
+      databaseMsg.current = db.collection("msg");
+      console.log(databaseMsg.current);
+      // db.collection("movies")
+      //   .doc("新世紀福爾摩斯")
+      //   .set({
+      //     name: "新世紀福爾摩斯",
+      //     date: "2010",
+      //     desctiption:
+      //       "本劇改編自阿瑟·柯南·道爾爵士家喻戶曉的推理小說，一位脾氣古怪的大偵探在現代倫敦的街頭悄悄巡行，四處搜尋線索。",
+      //     actors: ["班尼迪克·康柏拜區", "馬丁·費曼"]
+      //   });
+
+      // db.collection("users")
+      //   .add({
+      //     first: "Ada",
+      //     last: "Lovelace",
+      //     born: 1815
+      //   })
+      //   .then(function(docRef) {
+      //     console.log("Document written with ID: ", docRef.id);
+      //   })
+      //   .catch(function(error) {
+      //     console.error("Error adding document: ", error);
+      //   });
+
+      // var docRef = db.collection("aaa").doc("text");
+      // console.log(docRef);
+      // docRef
+      //   .get()
+      //   .then(function(doc) {
+      //     if (doc.exists) {
+      //       console.log(doc.data());
+      //     } else {
+      //       console.log("找不到文件");
+      //     }
+      //   })
+      //   .catch(function(error) {
+      //     console.log("提取文件時出錯:", error);
+      //   });
 
       //初始化時抓全部的訊息
-      databaseMsg.current.once("value").then(function(snapshot) {
-        const newMsgArr = [];
-        for (var i in snapshot.val()) {
-          newMsgArr.push({
-            name: snapshot.val()[i].name,
-            msg: snapshot.val()[i].msg,
-            time: snapshot.val()[i].time
+      // databaseMsg.current.once("value").then(function(snapshot) {
+      //   const newMsgArr = [];
+      //   for (var i in snapshot.val()) {
+      //     newMsgArr.push({
+      //       name: snapshot.val()[i].name,
+      //       msg: snapshot.val()[i].msg,
+      //       time: snapshot.val()[i].time
+      //     });
+      //   }
+      //   dispatch(action.updateMsg(newMsgArr, true));
+      // });
+      db.collection("msg")
+        .get()
+        .then(querySnapshot => {
+          const newMsgArr = [];
+          querySnapshot.forEach(doc => {
+            newMsgArr.push({
+              name: doc.data().name,
+              msg: doc.data().msg,
+              time: doc.data().time
+            });
           });
-        }
-        dispatch(action.updateMsg(newMsgArr, true));
-      });
+          dispatch(action.updateMsg(newMsgArr, true));
+        });
 
       //訊息更新時抓最新的一筆訊息
-      databaseMsg.current.limitToLast(1).on("value", function(snapshot) {
-        for (var i in snapshot.val()) {
-          dispatch(
-            action.updateMsg(
-              {
-                name: snapshot.val()[i].name,
-                msg: snapshot.val()[i].msg,
-                time: snapshot.val()[i].time
-              },
-              false
-            )
-          );
-        }
+      // databaseMsg.current.limitToLast(1).on("value", function(snapshot) {
+      //   for (var i in snapshot.val()) {
+      //     dispatch(
+      //       action.updateMsg(
+      //         {
+      //           name: snapshot.val()[i].name,
+      //           msg: snapshot.val()[i].msg,
+      //           time: snapshot.val()[i].time
+      //         },
+      //         false
+      //       )
+      //     );
+      //   }
+      // });
+
+      db.collection("msg").onSnapshot(function(ref) {
+        console.log("Current data: ", ref.docChanges());
+
+        ref.docChanges().forEach(change => {
+          const { newIndex, oldIndex, doc, type } = change;
+
+          console.log(doc.data());
+          dispatch(action.updateMsg(doc.data(), false));
+        });
       });
 
-      const connectedRef = firebase.database().ref(".info/connected");
-      const onlineUser = firebase.database().ref("user");
-      var userRef = onlineUser.push();
+      // db.collection("msg")
+      // .get()
+      // .then(querySnapshot => {
+      //   const newMsgArr = [];
+      //   querySnapshot.forEach(doc => {
+      //     newMsgArr.push({
+      //       name: doc.data().name,
+      //       msg: doc.data().msg,
+      //       time: doc.data().time
+      //     });
+      //   });
+      //   dispatch(action.updateMsg(newMsgArr, true));
+      // });
 
-      //紀錄上線人數
-      connectedRef.on("value", function(snap) {
-        if (snap.val()) {
-          userRef.onDisconnect().remove();
-          userRef.set(true);
-        }
-      });
+      // const connectedRef = firebase.database().ref(".info/connected");
+      // const onlineUser = firebase.database().ref("user");
+      // var userRef = onlineUser.push();
 
-      onlineUser.on("value", function(snap) {
-        dispatch(action.updateOnlineUser(snap.numChildren()));
-      });
+      // //紀錄上線人數
+      // connectedRef.on("value", function(snap) {
+      //   if (snap.val()) {
+      //     userRef.onDisconnect().remove();
+      //     userRef.set(true);
+      //   }
+      // });
+
+      // onlineUser.on("value", function(snap) {
+      //   dispatch(action.updateOnlineUser(snap.numChildren()));
+      // });
     }
   }, [chatReducer.database]);
 
@@ -93,18 +171,28 @@ function App(props) {
       time: `${hour}:${minute}`
     };
 
-    const newPostKey = firebase
-      .database()
-      .ref()
-      .child("posts")
-      .push().key;
-    const updates = {};
-    updates[newPostKey] = postData;
+    databaseMsg.current
+      .add(postData)
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        dispatch(action.changeMsg(""));
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+
+    // const newPostKey = firebase
+    //   .database()
+    //   .ref()
+    //   .child("posts")
+    //   .push().key;
+    // const updates = {};
+    // updates[newPostKey] = postData;
 
     //寫入資料
-    databaseMsg.current.update(updates);
+    // databaseMsg.current.update(updates);
 
-    dispatch(action.changeMsg(""));
+    // dispatch(action.changeMsg(""));
   };
 
   const onChangeMsg = e => {
