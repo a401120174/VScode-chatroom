@@ -7,6 +7,8 @@ import Content from "./components/Content/Content";
 import TextInput from "./components/TextInput/TextInput";
 import Popup from "./components/Popup/Popup";
 import UserOnlineBar from "./components/UserOnlineBar/UserOnlineBar";
+import AsideBar from "./components/AsideBar/AsideBar";
+import { getChatMsg } from "./firestoreFunction";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -27,12 +29,13 @@ function App(props) {
   //連上Socket後訂閱Socket事件
   useEffect(() => {
     const { database } = chatReducer;
-
     if (database) {
-      // databaseMsg.current = firebase.database().ref("msg");
       const db = firebase.firestore();
       databaseMsg.current = db.collection("msg");
-      console.log(databaseMsg.current);
+      getChatMsg("lobby", msg => {
+        dispatch(action.updateMsg(msg, false));
+      });
+      // getLobbyMsg
       // db.collection("movies")
       //   .doc("新世紀福爾摩斯")
       //   .set({
@@ -55,88 +58,6 @@ function App(props) {
       //   .catch(function(error) {
       //     console.error("Error adding document: ", error);
       //   });
-
-      // var docRef = db.collection("aaa").doc("text");
-      // console.log(docRef);
-      // docRef
-      //   .get()
-      //   .then(function(doc) {
-      //     if (doc.exists) {
-      //       console.log(doc.data());
-      //     } else {
-      //       console.log("找不到文件");
-      //     }
-      //   })
-      //   .catch(function(error) {
-      //     console.log("提取文件時出錯:", error);
-      //   });
-
-      //初始化時抓全部的訊息
-      // databaseMsg.current.once("value").then(function(snapshot) {
-      //   const newMsgArr = [];
-      //   for (var i in snapshot.val()) {
-      //     newMsgArr.push({
-      //       name: snapshot.val()[i].name,
-      //       msg: snapshot.val()[i].msg,
-      //       time: snapshot.val()[i].time
-      //     });
-      //   }
-      //   dispatch(action.updateMsg(newMsgArr, true));
-      // });
-      db.collection("msg")
-        .get()
-        .then(querySnapshot => {
-          const newMsgArr = [];
-          querySnapshot.forEach(doc => {
-            newMsgArr.push({
-              name: doc.data().name,
-              msg: doc.data().msg,
-              time: doc.data().time
-            });
-          });
-          dispatch(action.updateMsg(newMsgArr, true));
-        });
-
-      //訊息更新時抓最新的一筆訊息
-      // databaseMsg.current.limitToLast(1).on("value", function(snapshot) {
-      //   for (var i in snapshot.val()) {
-      //     dispatch(
-      //       action.updateMsg(
-      //         {
-      //           name: snapshot.val()[i].name,
-      //           msg: snapshot.val()[i].msg,
-      //           time: snapshot.val()[i].time
-      //         },
-      //         false
-      //       )
-      //     );
-      //   }
-      // });
-
-      db.collection("msg").onSnapshot(function(ref) {
-        console.log("Current data: ", ref.docChanges());
-
-        ref.docChanges().forEach(change => {
-          const { newIndex, oldIndex, doc, type } = change;
-
-          console.log(doc.data());
-          dispatch(action.updateMsg(doc.data(), false));
-        });
-      });
-
-      // db.collection("msg")
-      // .get()
-      // .then(querySnapshot => {
-      //   const newMsgArr = [];
-      //   querySnapshot.forEach(doc => {
-      //     newMsgArr.push({
-      //       name: doc.data().name,
-      //       msg: doc.data().msg,
-      //       time: doc.data().time
-      //     });
-      //   });
-      //   dispatch(action.updateMsg(newMsgArr, true));
-      // });
 
       // const connectedRef = firebase.database().ref(".info/connected");
       // const onlineUser = firebase.database().ref("user");
@@ -244,6 +165,7 @@ function App(props) {
   return (
     <div className={styles.App}>
       <Popup content={renderPopup()} isOpen={!!chatReducer.popup} />
+      <AsideBar />
       <div className={styles.rightPart}>
         <Content msg={chatReducer.msg} userName={chatReducer.userName} />
         <UserOnlineBar onlineCount={chatReducer.onlineUser} />

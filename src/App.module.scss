@@ -3,6 +3,8 @@
 .App {
   font-size: 14px;
   font-family: "Consolas";
+  display: flex;
+  color: $fontWhite;
 }
 
 .rightPart {
@@ -10,7 +12,7 @@
   flex-direction: column;
   height: 100vh;
   background-color: $bgBlack;
-  color: $fontWhite;
+  flex-grow: 1;
 }
 
 .idType {
