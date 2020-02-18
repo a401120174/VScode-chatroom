@@ -2,6 +2,8 @@ import { put, takeLatest } from "redux-saga/effects";
 import * as firebase from "firebase";
 
 function* getFirebase(action) {
+  console.log("object");
+
   try {
     var config = {
       apiKey: "AIzaSyDZ-WE4xegOzuba568z1DXE9WAuLV0LhsE",
@@ -13,7 +15,7 @@ function* getFirebase(action) {
       appId: "1:620146762888:web:a2dcc475ab5d9187"
     };
     firebase.initializeApp(config);
-
+    console.log("object");
     yield put({ type: "GET_FIREBASE_SCS", database: true });
   } catch (e) {
     console.log(e);

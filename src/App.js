@@ -8,15 +8,18 @@ import TextInput from "./components/TextInput/TextInput";
 import Popup from "./components/Popup/Popup";
 import UserOnlineBar from "./components/UserOnlineBar/UserOnlineBar";
 import AsideBar from "./components/AsideBar/AsideBar";
-import { getChatMsg } from "./firestoreFunction";
+import { getChatMsg, getChatRooms } from "./firestoreFunction";
 
 function App(props) {
   const dispatch = useDispatch();
   const chatReducer = useSelector(state => state);
   const databaseMsg = useRef();
+  const unSubscribeMsg = useRef();
+  const isInit = useRef(true);
 
   //連上firebase
   useEffect(() => {
+    console.log("object");
     dispatch(action.getFirebase());
   }, []);
 
@@ -26,15 +29,33 @@ function App(props) {
     ele.scrollTop = ele.scrollHeight;
   }, [chatReducer.msg.length]);
 
+  // useEffect(()=>{
+
+  // },[chatReducer.currentRoom])
+
   //連上Socket後訂閱Socket事件
   useEffect(() => {
     const { database } = chatReducer;
+    console.log(database);
     if (database) {
-      const db = firebase.firestore();
-      databaseMsg.current = db.collection("msg");
-      getChatMsg("lobby", msg => {
+      //第一次進來要做的事
+      if (isInit.current) {
+        getChatRooms(rooms => {
+          dispatch(action.setChatRooms(rooms));
+        });
+        isInit.current = false;
+      }
+
+      //如果已經存在訂閱, 先清除訂閱
+      if (unSubscribeMsg.current) {
+        unSubscribeMsg.current();
+        dispatch(action.resetMsgs());
+      }
+
+      unSubscribeMsg.current = getChatMsg(chatReducer.currentRoom, msg => {
         dispatch(action.updateMsg(msg, false));
       });
+
       // getLobbyMsg
       // db.collection("movies")
       //   .doc("新世紀福爾摩斯")
@@ -75,7 +96,7 @@ function App(props) {
       //   dispatch(action.updateOnlineUser(snap.numChildren()));
       // });
     }
-  }, [chatReducer.database]);
+  }, [chatReducer.database, chatReducer.currentRoom]);
 
   const onSubmit = e => {
     if (e) e.preventDefault();
@@ -165,7 +186,7 @@ function App(props) {
   return (
     <div className={styles.App}>
       <Popup content={renderPopup()} isOpen={!!chatReducer.popup} />
-      <AsideBar />
+      <AsideBar rooms={chatReducer.chatRooms} />
       <div className={styles.rightPart}>
         <Content msg={chatReducer.msg} userName={chatReducer.userName} />
         <UserOnlineBar onlineCount={chatReducer.onlineUser} />

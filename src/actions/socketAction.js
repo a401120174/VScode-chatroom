@@ -25,6 +25,12 @@ export const updateMsg = (msg, isAll = false) => {
   };
 };
 
+export const resetMsgs = () => {
+  return {
+    type: "RESET_MSGS"
+  };
+};
+
 export const changeMsg = msg => {
   return {
     type: "CHANGE_MSG",
@@ -50,5 +56,19 @@ export const updateOnlineUser = count => {
   return {
     type: "UPDATE_ONLINE_USER",
     count
+  };
+};
+
+export const setChatRooms = room => {
+  return {
+    type: "SET_CHAT_ROOMS",
+    room
+  };
+};
+
+export const changeCurrentRoom = room => {
+  return {
+    type: "CHANGE_CURRENT_ROOM",
+    room
   };
 };

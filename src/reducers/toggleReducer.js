@@ -6,7 +6,9 @@ const initstate = {
   msg: [],
   currentMsg: "",
   popup: "SET_ID_TYPE",
-  onlineUser: 0
+  onlineUser: 0,
+  chatRooms: [],
+  currentRoom: "lobby"
 };
 
 const todo = (state = initstate, action) => {
@@ -31,6 +33,13 @@ const todo = (state = initstate, action) => {
       return { ...state, popup: action.popup };
     case "UPDATE_ONLINE_USER":
       return { ...state, onlineUser: action.count };
+    case "SET_CHAT_ROOMS":
+      return { ...state, chatRooms: [...state.chatRooms, action.room] };
+    case "CHANGE_CURRENT_ROOM":
+      return { ...state, currentRoom: action.room };
+    case "RESET_MSGS":
+      return { ...state, msg: [] };
+
     default:
       return state;
   }
