@@ -15,7 +15,7 @@
   }
   .time {
     padding-right: 15px;
-    color: $fontGray;
+    color: $fontWhite;
   }
   .msgTag {
     color: $fontBlue;
@@ -23,7 +23,7 @@
   .content {
     margin: 10px 0 10px 10px;
     padding-left: 10px;
-    border-left: 1px solid $fontGray;
+    border-left: 1px solid $fontWhite;
   }
   &.isSelf {
     .rightBox {

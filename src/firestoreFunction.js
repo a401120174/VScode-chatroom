@@ -24,4 +24,18 @@ const getChatRooms = callback => {
   });
 };
 
-export { getChatMsg, getChatRooms };
+const sendMsg = (roomName, msg, callback) => {
+  const db = firebase.firestore();
+  db.collection("chatRoom")
+    .doc(roomName)
+    .collection("messages")
+    .add(msg)
+    .then(function(docRef) {
+      callback();
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+};
+
+export { getChatMsg, getChatRooms, sendMsg };

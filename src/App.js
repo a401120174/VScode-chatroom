@@ -3,17 +3,15 @@ import styles from "./App.module.scss";
 import * as action from "./actions/socketAction.js";
 import * as firebase from "firebase";
 import { useSelector, useDispatch } from "react-redux";
-import Content from "./components/Content/Content";
-import TextInput from "./components/TextInput/TextInput";
 import Popup from "./components/Popup/Popup";
-import UserOnlineBar from "./components/UserOnlineBar/UserOnlineBar";
 import AsideBar from "./components/AsideBar/AsideBar";
+import Main from "./components/Main/Main";
+
 import { getChatMsg, getChatRooms } from "./firestoreFunction";
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
-  const chatReducer = useSelector(state => state);
-  const databaseMsg = useRef();
+  const state = useSelector(state => state);
   const unSubscribeMsg = useRef();
   const isInit = useRef(true);
 
@@ -23,19 +21,9 @@ function App(props) {
     dispatch(action.getFirebase());
   }, []);
 
-  //自動滾到最底
-  useEffect(() => {
-    const ele = document.querySelector("#content");
-    ele.scrollTop = ele.scrollHeight;
-  }, [chatReducer.msg.length]);
-
-  // useEffect(()=>{
-
-  // },[chatReducer.currentRoom])
-
   //連上Socket後訂閱Socket事件
   useEffect(() => {
-    const { database } = chatReducer;
+    const { database } = state;
     console.log(database);
     if (database) {
       //第一次進來要做的事
@@ -52,7 +40,7 @@ function App(props) {
         dispatch(action.resetMsgs());
       }
 
-      unSubscribeMsg.current = getChatMsg(chatReducer.currentRoom, msg => {
+      unSubscribeMsg.current = getChatMsg(state.currentRoom, msg => {
         dispatch(action.updateMsg(msg, false));
       });
 
@@ -96,107 +84,13 @@ function App(props) {
       //   dispatch(action.updateOnlineUser(snap.numChildren()));
       // });
     }
-  }, [chatReducer.database, chatReducer.currentRoom]);
-
-  const onSubmit = e => {
-    if (e) e.preventDefault();
-
-    if (chatReducer.currentMsg.trim().length === 0) return;
-    const now = new Date();
-    const hour = now.getHours();
-    let minute =
-      now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
-
-    const postData = {
-      name: chatReducer.userName,
-      msg: chatReducer.currentMsg,
-      time: `${hour}:${minute}`
-    };
-
-    databaseMsg.current
-      .add(postData)
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        dispatch(action.changeMsg(""));
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-
-    // const newPostKey = firebase
-    //   .database()
-    //   .ref()
-    //   .child("posts")
-    //   .push().key;
-    // const updates = {};
-    // updates[newPostKey] = postData;
-
-    //寫入資料
-    // databaseMsg.current.update(updates);
-
-    // dispatch(action.changeMsg(""));
-  };
-
-  const onChangeMsg = e => {
-    dispatch(action.changeMsg(e.target.value));
-  };
-
-  const setId = () => {
-    const ramdom = Math.floor(Math.random() * 1000);
-    dispatch(action.setId(chatReducer.userName || `無名氏${ramdom}`));
-    dispatch(action.openPopup(""));
-  };
-
-  const openIdSetPop = () => {
-    dispatch(action.openPopup("SET_ID"));
-  };
-
-  const onChangeId = e => {
-    dispatch(action.setId(e.target.value.trim()));
-  };
-
-  const renderPopup = () => {
-    switch (chatReducer.popup) {
-      case "SET_ID_TYPE":
-        return (
-          <div className={styles.idType}>
-            <div onClick={setId}>[匿名聊天]</div>
-            <div onClick={openIdSetPop}>[暱稱聊天]</div>
-          </div>
-        );
-      case "SET_ID":
-        return (
-          <div className={styles.idSet}>
-            <div className={styles.title}>暱稱聊天</div>
-            <input
-              value={chatReducer.userName}
-              onChange={onChangeId}
-              placeholder="輸入暱稱"
-            />
-            <div onClick={setId} className={styles.confirm}>
-              [確定]
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  }, [state.database, state.currentRoom]);
 
   return (
     <div className={styles.App}>
-      <Popup content={renderPopup()} isOpen={!!chatReducer.popup} />
-      <AsideBar rooms={chatReducer.chatRooms} />
-      <div className={styles.rightPart}>
-        <Content msg={chatReducer.msg} userName={chatReducer.userName} />
-        <UserOnlineBar onlineCount={chatReducer.onlineUser} />
-        <TextInput
-          user={chatReducer.userName}
-          onSubmit={onSubmit}
-          onChangeMsg={onChangeMsg}
-          value={chatReducer.currentMsg}
-        />
-      </div>
+      <AsideBar />
+      <Main />
+      <Popup />
     </div>
   );
 }

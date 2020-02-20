@@ -1,0 +1,24 @@
+@import "../../commonStyle.scss";
+
+.rightPart {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $bgBlack;
+  flex-grow: 1;
+}
+
+.idType {
+  color: $fontWhite;
+
+  > div {
+    cursor: pointer;
+    font-size: 20px;
+    &:hover {
+      color: $fontYellow;
+    }
+    &:first-child {
+      margin-bottom: 40px;
+    }
+  }
+}
