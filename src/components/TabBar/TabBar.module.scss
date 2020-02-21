@@ -1,0 +1,25 @@
+@import "../../commonStyle.scss";
+
+.wrapper {
+  background-color: $bgGray;
+  ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      width: 200px;
+      padding: 15px;
+      &.active {
+        background-color: $bgBlack;
+      }
+      position: relative;
+    }
+    .closeBtn {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 15px;
+    }
+  }
+}

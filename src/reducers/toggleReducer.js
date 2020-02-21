@@ -8,7 +8,8 @@ const initstate = {
   popup: "SET_ID_TYPE",
   onlineUser: 0,
   chatRooms: [],
-  currentRoom: "lobby"
+  currentRoom: "lobby",
+  tabs: ["lobby"]
 };
 
 const todo = (state = initstate, action) => {
@@ -36,7 +37,25 @@ const todo = (state = initstate, action) => {
     case "SET_CHAT_ROOMS":
       return { ...state, chatRooms: [...state.chatRooms, action.room] };
     case "CHANGE_CURRENT_ROOM":
-      return { ...state, currentRoom: action.room };
+      if (state.tabs.includes(action.room)) {
+        return { ...state, currentRoom: action.room };
+      } else {
+        return {
+          ...state,
+          currentRoom: action.room,
+          tabs: [...state.tabs, action.room]
+        };
+      }
+    case "CLOSE_TAB":
+      const closeIdx = state.tabs.indexOf(action.tab);
+      return {
+        ...state,
+        currentRoom: state.tabs[closeIdx - 1],
+        tabs: [
+          ...state.tabs.slice(0, closeIdx),
+          ...state.tabs.slice(closeIdx + 1)
+        ]
+      };
     case "RESET_MSGS":
       return { ...state, msg: [] };
 

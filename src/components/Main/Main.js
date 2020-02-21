@@ -3,6 +3,7 @@ import styles from "./Main.module.scss";
 import * as action from "../../actions/socketAction.js";
 import Content from "../Content/Content";
 import TextInput from "../TextInput/TextInput";
+import TabBar from "../TabBar/TabBar";
 import UserOnlineBar from "../UserOnlineBar/UserOnlineBar";
 import { useSelector, useDispatch } from "react-redux";
 import { sendMsg } from "../../firestoreFunction";
@@ -59,12 +60,26 @@ const Main = () => {
     // dispatch(action.changeMsg(""));
   };
 
+  const enterRoom = name => {
+    dispatch(action.changeCurrentRoom(name));
+  };
+
   const onChangeMsg = e => {
     dispatch(action.changeMsg(e.target.value));
   };
 
+  const onClose = tab => {
+    dispatch(action.closeTab(tab));
+  };
+
   return (
     <div className={styles.rightPart}>
+      <TabBar
+        tabs={state.tabs}
+        active={state.currentRoom}
+        onClose={onClose}
+        onClick={enterRoom}
+      />
       <Content msg={state.msg} userName={state.userName} />
       <UserOnlineBar onlineCount={state.onlineUser} />
       <TextInput
