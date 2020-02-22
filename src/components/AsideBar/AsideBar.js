@@ -1,15 +1,19 @@
 import React from "react";
 import styles from "./AsideBar.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import * as action from "../../actions/socketAction.js";
+import * as action from "../../actions/mainAction";
 import { ReactComponent as Logo } from "../../static/char_icon.svg";
 
 const AsideBar = () => {
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  // console.log(chatReducer.rooms);
+
   const enterRoom = name => {
     dispatch(action.changeCurrentRoom(name));
+  };
+
+  const creatNewRoom = () => {
+    dispatch(action.openPopup("CREAT_ROOM"));
   };
 
   return (
@@ -35,6 +39,9 @@ const AsideBar = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div className={styles.addBtnBox}>
+        <button onClick={creatNewRoom}>新增聊天室</button>
       </div>
     </aside>
   );

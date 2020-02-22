@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-import toggleReducer from "./reducers/toggleReducer.js";
+import toggleReducer from "./reducers/mainReducer";
 import mySaga from "./saga/saga.js";
 
 const sagaMiddleWare = createSagaMiddleware();

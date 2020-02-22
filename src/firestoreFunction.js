@@ -38,4 +38,20 @@ const sendMsg = (roomName, msg, callback) => {
     });
 };
 
-export { getChatMsg, getChatRooms, sendMsg };
+const creatRoom = (roomName, callback) => {
+  const db = firebase.firestore();
+  db.collection("chatRoom")
+    .doc(roomName)
+    .set({
+      name: roomName,
+      date: "2010"
+    })
+    .then(function(docRef) {
+      callback();
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+};
+
+export { getChatMsg, getChatRooms, sendMsg, creatRoom };

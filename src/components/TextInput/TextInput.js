@@ -1,34 +1,93 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styles from "./TextInput.module.scss";
 
-const TextInput = ({ onSubmit, onChangeMsg, value, user }) => {
+const cuteTexts = [
+  "σ`∀´)σ",
+  "_(:3 」∠ )_",
+  "(́◉◞౪◟◉‵)",
+  "థ౪థ",
+  "(σ′▽‵)′▽‵)σ",
+  "｡ﾟヽ(*´∀`)ﾉﾟ｡",
+  "(◔౪◔)",
+  "(*´∀`)~♥",
+  "(*ﾟ∀ﾟ*)",
+  "σ`∀´)σ",
+  "(`・ω・´)",
+  "。･ﾟ･(つд`ﾟ)･ﾟ･"
+];
+
+const CuteText = ({ onClick }) => {
+  return (
+    <div className={styles.cute}>
+      {cuteTexts.map((item, idx) => (
+        <div
+          key={idx}
+          onClick={() => {
+            onClick(item);
+          }}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const TextInput = ({ onSubmit, onChangeMsg, onAddCute, value, user }) => {
   const inputEl = useRef(null);
   const submitEl = useRef(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [isCuteOpen, setCuteOpen] = useState(false);
 
-  const pressEnter = e => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      submitEl.current.click();
-    }
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
+  const handleFocus = e => {
+    setIsTyping(true);
   };
 
+  const handleBlur = e => {
+    setIsTyping(false);
+  };
+
+  const handleCuteBtnClick = e => {
+    setCuteOpen(!isCuteOpen);
+  };
+
+  const handleAddCute = cute => {
+    setCuteOpen(false);
+    inputEl.current.focus();
+    onAddCute(cute);
+  };
+  console.log(value);
   return (
     <div className={styles.box}>
       <form onSubmit={onSubmit}>
-        <span>{user || "使用者"} ></span>
-        <textarea
-          ref={inputEl}
-          value={value}
-          onChange={onChangeMsg}
-          className={styles.textInput}
-          onKeyUp={pressEnter}
-        />
+        <label>
+          <span className={`${isTyping || !!value ? "" : styles.animation}`}>
+            {user || "使用者"} >
+          </span>
+          <input
+            ref={inputEl}
+            value={value}
+            onChange={onChangeMsg}
+            className={styles.textInput}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+        </label>
+        <div className={styles.cuteBtn} onClick={handleCuteBtnClick}>
+          <span>(ﾟ∀ﾟ) </span>
+          {`<`}-用表情符號來表達你的情感吧~
+        </div>
         <input
           ref={submitEl}
           type="submit"
           value="送出"
           className={styles.submit}
         />
+        {isCuteOpen && <CuteText onClick={handleAddCute} />}
       </form>
     </div>
   );
