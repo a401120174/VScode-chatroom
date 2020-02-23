@@ -5,27 +5,24 @@ import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
 import toggleReducer from "./reducers/mainReducer";
-import mySaga from "./saga/saga.js";
-
-const sagaMiddleWare = createSagaMiddleware();
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let store = createStore(
-  toggleReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleWare))
-);
+let store = createStore(toggleReducer, composeEnhancers());
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Switch>
+        <Route path="/" exact children={<App />} />
+        <Route path="/:roomParam" children={<App />} />
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
-
-sagaMiddleWare.run(mySaga);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

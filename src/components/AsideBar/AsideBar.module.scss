@@ -35,7 +35,8 @@
     margin: 0;
     li {
       margin-bottom: 10px;
-      cursor: pointer;
+    }
+    a {
       &:hover {
         color: $fontYellow;
         background-color: #222;

@@ -1,7 +1,7 @@
 const initstate = {
   toggle: true,
   roomss: [],
-  database: null,
+  isConnected: false,
   userName: "",
   msg: [],
   currentMsg: "",
@@ -10,7 +10,8 @@ const initstate = {
   currentRoom: "大廳",
   tabs: ["大廳"],
   roomNameInput: "",
-  loading: true
+  loading: true,
+  test: ""
 };
 
 const formatTime = time => {
@@ -26,8 +27,8 @@ const todo = (state = initstate, action) => {
       return { ...state, toggle: !state.toggle };
     case "ROOM_FETCH_SUCCEEDED":
       return { ...state, rooms: action.rooms };
-    case "GET_FIREBASE_SCS":
-      return { ...state, database: action.database };
+    case "FIREBASE_CONNECTED":
+      return { ...state, isConnected: action.isConnected };
     case "UPDATE_MSG":
       console.log(action.msg);
       const formatedMsg = {
@@ -53,8 +54,23 @@ const todo = (state = initstate, action) => {
     case "UPDATE_ONLINE_USER":
       return { ...state, onlineUser: action.count };
     case "SET_CHAT_ROOMS":
-      return { ...state, chatRooms: [...state.chatRooms, action.room] };
+      if (action.room.name === action.roomParam) {
+        return {
+          ...state,
+          chatRooms: [...state.chatRooms, action.room],
+          currentRoom: action.roomParam,
+          tabs: state.tabs.includes(action.roomParam)
+            ? state.tabs
+            : [...state.tabs, action.roomParam]
+        };
+      } else {
+        return { ...state, chatRooms: [...state.chatRooms, action.room] };
+      }
     case "CHANGE_CURRENT_ROOM":
+      // console.log(state.chatRooms);
+      // if (!state.chatRooms.includes(action.room)) {
+      //   return { ...state, currentRoom: "大廳" };
+      // }
       if (state.tabs.includes(action.room)) {
         return { ...state, currentRoom: action.room };
       } else {

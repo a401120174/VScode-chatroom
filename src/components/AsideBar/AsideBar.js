@@ -3,14 +3,11 @@ import styles from "./AsideBar.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import * as action from "../../actions/mainAction";
 import { ReactComponent as Logo } from "../../static/char_icon.svg";
+import { Link } from "react-router-dom";
 
 const AsideBar = () => {
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-
-  const enterRoom = name => {
-    dispatch(action.changeCurrentRoom(name));
-  };
 
   const creatNewRoom = () => {
     dispatch(action.openPopup("CREAT_ROOM"));
@@ -30,12 +27,10 @@ const AsideBar = () => {
       <div className={styles.roomList}>
         <ul>
           {state.chatRooms.map((room, idx) => (
-            <li
-              onClick={() => {
-                enterRoom(room.name);
-              }}
-            >
-              C00{idx + 1} {room.name}
+            <li>
+              <Link to={`/${room.name}`}>
+                C00{idx + 1} {room.name}
+              </Link>
             </li>
           ))}
         </ul>

@@ -5,15 +5,23 @@ export const setToggle = toggle => {
   };
 };
 
+export const firebaseConnected = isConnected => {
+  return {
+    type: "FIREBASE_CONNECTED",
+    isConnected
+  };
+};
+
 export const fectcRooms = () => {
   return {
     type: "FETCH_ROOM_DATA"
   };
 };
 
-export const getFirebase = () => {
+export const firebaseInit = roomId => {
   return {
-    type: "GET_FIREBASE"
+    type: "FIREBASE_INIT",
+    roomId
   };
 };
 
@@ -81,10 +89,11 @@ export const updateOnlineUser = count => {
   };
 };
 
-export const setChatRooms = room => {
+export const setChatRooms = (room, roomParam) => {
   return {
     type: "SET_CHAT_ROOMS",
-    room
+    room,
+    roomParam
   };
 };
 

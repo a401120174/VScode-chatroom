@@ -33,10 +33,6 @@ const Main = () => {
     });
   };
 
-  const enterRoom = name => {
-    dispatch(action.changeCurrentRoom(name));
-  };
-
   const onChangeMsg = e => {
     dispatch(action.changeMsg(e.target.value));
   };
@@ -51,12 +47,7 @@ const Main = () => {
 
   return (
     <div className={styles.rightPart}>
-      <TabBar
-        tabs={state.tabs}
-        active={state.currentRoom}
-        onClose={onClose}
-        onClick={enterRoom}
-      />
+      <TabBar tabs={state.tabs} active={state.currentRoom} onClose={onClose} />
       <Content
         msg={state.msg}
         userName={state.userName}
