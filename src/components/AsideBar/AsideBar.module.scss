@@ -3,6 +3,7 @@
 .aside {
   background-color: $bgGray;
   width: 300px;
+  position: relative;
 }
 
 .title {
@@ -10,6 +11,7 @@
   text-align: center;
   h2 {
     font-size: 14px;
+    margin: 0;
     svg {
       margin-right: 5.2px;
     }
@@ -22,6 +24,7 @@
 .subTitle {
   background-color: $tabGray;
   padding: 5px 15px;
+  box-shadow: 0 6px 6px -6px #000000;
 }
 
 .roomList {
@@ -32,10 +35,35 @@
     margin: 0;
     li {
       margin-bottom: 10px;
+    }
+    a {
       &:hover {
         color: $fontYellow;
-        cursor: pointer;
+        background-color: #222;
       }
+    }
+  }
+}
+
+.addBtnBox {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 20px 15px;
+  width: 100%;
+  box-sizing: border-box;
+  button {
+    width: 100%;
+    font-size: 14px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid $fontWhite;
+    color: $fontWhite;
+    cursor: pointer;
+    &:hover {
+      color: $fontYellow;
+      border-color: $fontYellow;
+      cursor: pointer;
     }
   }
 }

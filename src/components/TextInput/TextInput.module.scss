@@ -2,16 +2,16 @@
 
 .box {
   height: 168px;
-  padding: 16px;
+  padding: 15px;
   background-color: $bgBlack;
   color: $fontWhite;
   position: relative;
   box-sizing: border-box;
+  box-shadow: 0 6px 6px -6px #000000 inset;
   .textInput {
     background-color: transparent;
     border: none;
     display: block;
-    height: 100px;
     width: 100%;
     color: $fontWhite;
   }
@@ -24,5 +24,87 @@
     bottom: 0;
     color: $fontWhite;
     cursor: pointer;
+  }
+  label {
+    display: flex;
+    > span {
+      white-space: nowrap;
+      margin-right: 5px;
+      display: inline-block;
+      position: relative;
+      &.animation::after {
+        content: "";
+        position: absolute;
+        display: block;
+        right: -20px;
+        bottom: 1px;
+        width: 10px;
+        height: 2px;
+        background-color: transparent;
+        animation: shiny 0.5s infinite alternate step-end;
+      }
+    }
+  }
+}
+
+.cuteBtn {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  span {
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+      color: $fontYellow;
+    }
+  }
+}
+
+.cute {
+  width: 400px;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  background-color: $lessGray;
+  position: absolute;
+  bottom: 70px;
+  left: -20px;
+  box-shadow: 0px 3px 30px #000;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    left: 45px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid $lessGray;
+    border-bottom: 20px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+  }
+  > div {
+    margin: 10px 25px;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+      color: $fontYellow;
+    }
+  }
+}
+
+@keyframes shiny {
+  0% {
+    background-color: transparent;
+  }
+  49% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: $fontWhite;
+  }
+  100% {
+    background-color: $fontWhite;
   }
 }

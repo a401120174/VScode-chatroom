@@ -5,15 +5,23 @@ export const setToggle = toggle => {
   };
 };
 
+export const firebaseConnected = isConnected => {
+  return {
+    type: "FIREBASE_CONNECTED",
+    isConnected
+  };
+};
+
 export const fectcRooms = () => {
   return {
     type: "FETCH_ROOM_DATA"
   };
 };
 
-export const getFirebase = () => {
+export const firebaseInit = roomId => {
   return {
-    type: "GET_FIREBASE"
+    type: "FIREBASE_INIT",
+    roomId
   };
 };
 
@@ -25,16 +33,31 @@ export const updateMsg = (msg, isAll = false) => {
   };
 };
 
+export const setLoading = loading => {
+  return {
+    type: "SET_LOADING",
+    loading
+  };
+};
+
 export const resetMsgs = () => {
   return {
     type: "RESET_MSGS"
   };
 };
 
-export const changeMsg = msg => {
+export const changeMsg = (msg, isAdd = false) => {
   return {
     type: "CHANGE_MSG",
-    msg
+    msg,
+    isAdd
+  };
+};
+
+export const closeTab = tab => {
+  return {
+    type: "CLOSE_TAB",
+    tab
   };
 };
 
@@ -52,6 +75,13 @@ export const setId = id => {
   };
 };
 
+export const setRoomName = name => {
+  return {
+    type: "SET_ROOM_NAME",
+    name
+  };
+};
+
 export const openPopup = popup => {
   return {
     type: "OPEN_POPUP",
@@ -66,10 +96,11 @@ export const updateOnlineUser = count => {
   };
 };
 
-export const setChatRooms = room => {
+export const setChatRooms = (room, roomParam) => {
   return {
     type: "SET_CHAT_ROOMS",
-    room
+    room,
+    roomParam
   };
 };
 
