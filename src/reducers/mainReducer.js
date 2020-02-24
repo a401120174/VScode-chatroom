@@ -30,7 +30,6 @@ const todo = (state = initstate, action) => {
     case "FIREBASE_CONNECTED":
       return { ...state, isConnected: action.isConnected };
     case "UPDATE_MSG":
-      console.log(action.msg);
       const formatedMsg = {
         ...action.msg,
         dateObj: action.msg.timeStamp.toDate(),

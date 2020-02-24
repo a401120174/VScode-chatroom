@@ -1,51 +1,25 @@
 import React from "react";
-import styles from "./Popup.module.scss";
-import * as action from "../../actions/mainAction";
-import { useSelector, useDispatch } from "react-redux";
-import { creatRoom } from "../../firestoreFunction";
+import styles from "./PopContent.module.scss";
+import PropTypes from "prop-types";
 
-const Popup = () => {
-  const dispatch = useDispatch();
-  const state = useSelector(state => state);
-
-  const closePopup = e => {
-    if (e.target !== e.currentTarget || state.popup !== "CREAT_ROOM") return;
-    dispatch(action.openPopup(""));
-  };
-
-  const creatNewRoom = () => {
-    if (!state.roomNameInput) return;
-    creatRoom(state.roomNameInput, () => {
-      dispatch(action.changeCurrentRoom(state.roomNameInput));
-      dispatch(action.openPopup(""));
-    });
-  };
-
-  const setId = () => {
-    const ramdom = Math.floor(Math.random() * 1000);
-    dispatch(action.setId(state.userName || `訪客${ramdom}號`));
-    dispatch(action.openPopup(""));
-  };
-
-  const openIdSetPop = () => {
-    dispatch(action.openPopup("SET_ID"));
-  };
-
-  const onChangeId = e => {
-    dispatch(action.setId(e.target.value.trim()));
-  };
-
-  const onChangeRoomName = e => {
-    dispatch(action.setRoomName(e.target.value.trim()));
-  };
-
+const PopContent = ({
+  popup,
+  userName,
+  roomNameInput,
+  setId,
+  openIdSetPop,
+  onChangeId,
+  onChangeRoomName,
+  creatNewRoom,
+  closePopup
+}) => {
   const content = type => {
     switch (type) {
       case "SET_ID_TYPE":
         return (
           <div className={styles.idType}>
             <div className={styles.someWord}>
-              聊天室2.0版上線啦(*ﾟ∀ﾟ*) <br />
+              <h2>聊天室2.0版上線啦(*ﾟ∀ﾟ*) </h2>
               <br />
               [new] 新增多聊天室功能
               <br />
@@ -64,7 +38,7 @@ const Popup = () => {
           <div className={styles.idSet}>
             <div className={styles.title}>暱稱聊天</div>
             <input
-              value={state.userName}
+              value={userName}
               onChange={onChangeId}
               placeholder="輸入暱稱"
             />
@@ -78,7 +52,7 @@ const Popup = () => {
           <div className={styles.idSet}>
             <div className={styles.title}>創立聊天室</div>
             <input
-              value={state.roomNameInput}
+              value={roomNameInput}
               onChange={onChangeRoomName}
               placeholder="輸入聊天室名稱"
             />
@@ -94,12 +68,24 @@ const Popup = () => {
 
   return (
     <div
-      className={`${styles.cover} ${!!state.popup ? "" : styles.hide}`}
+      className={`${styles.cover} ${!!popup ? "" : styles.hide}`}
       onClick={closePopup}
     >
-      <div className={styles.contentBox}>{content(state.popup)}</div>
+      <div className={styles.contentBox}>{content(popup)}</div>
     </div>
   );
 };
 
-export default Popup;
+PopContent.propTypes = {
+  popup: PropTypes.string,
+  userName: PropTypes.string,
+  roomNameInput: PropTypes.string,
+  setId: PropTypes.func,
+  openIdSetPop: PropTypes.func,
+  onChangeId: PropTypes.func,
+  onChangeRoomName: PropTypes.func,
+  creatNewRoom: PropTypes.func,
+  closePopup: PropTypes.func
+};
+
+export default PopContent;

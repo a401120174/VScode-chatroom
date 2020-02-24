@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import styles from "./TextInput.module.scss";
+import PropTypes from "prop-types";
 
 const cuteTexts = [
   "σ`∀´)σ",
@@ -60,7 +61,6 @@ const TextInput = ({ onSubmit, onChangeMsg, onAddCute, value, user }) => {
     inputEl.current.focus();
     onAddCute(cute);
   };
-  console.log(value);
   return (
     <div className={styles.box}>
       <form onSubmit={onSubmit}>
@@ -91,6 +91,14 @@ const TextInput = ({ onSubmit, onChangeMsg, onAddCute, value, user }) => {
       </form>
     </div>
   );
+};
+
+TextInput.propTypes = {
+  user: PropTypes.string,
+  value: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onChangeMsg: PropTypes.func,
+  onAddCute: PropTypes.func
 };
 
 export default TextInput;

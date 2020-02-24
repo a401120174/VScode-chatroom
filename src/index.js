@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./components/App/App";
-import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, compose } from "redux";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+
+import * as serviceWorker from "./serviceWorker";
 import toggleReducer from "./reducers/mainReducer";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import App from "./containers/App/App";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -14,7 +14,7 @@ let store = createStore(toggleReducer, composeEnhancers());
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router his>
       <Switch>
         <Route path="/" exact children={<App />} />
         <Route path="/:roomParam" children={<App />} />

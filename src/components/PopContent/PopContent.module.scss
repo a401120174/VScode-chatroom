@@ -31,8 +31,12 @@
   flex-direction: column;
   align-items: center;
   .someWord {
+    h2 {
+      margin: 0;
+    }
     margin-bottom: 20px;
     line-height: 1.5;
+    text-align: center;
   }
   .btnBox {
     display: flex;

@@ -2,7 +2,7 @@
   "name": "f2e_week6",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://a401120174.github.io/f2e_week7/",
+  "homepage": "https://a401120174.github.io/VScodeChat/",
   "dependencies": {
     "express": "^4.17.1",
     "firebase": "^6.5.0",

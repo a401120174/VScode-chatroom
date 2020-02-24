@@ -1,5 +1,12 @@
 import React from "react";
 import styles from "./Content.module.scss";
+import PropTypes from "prop-types";
+
+function sortNumber(a, b) {
+  a = new Date(a.dateObj).getTime();
+  b = new Date(b.dateObj).getTime();
+  return a - b;
+}
 
 const MsgBox = ({ name, msg, isSelf, time }) => (
   <div className={`${styles.msgBox} ${isSelf ? styles.isSelf : ""}`}>
@@ -14,12 +21,6 @@ const MsgBox = ({ name, msg, isSelf, time }) => (
   </div>
 );
 
-function sortNumber(a, b) {
-  a = new Date(a.dateObj).getTime();
-  b = new Date(b.dateObj).getTime();
-  return a - b;
-}
-
 const AlertText = ({ text }) => (
   <div className={styles.alert}>
     <span className={styles.blue}>{`<link`}</span>
@@ -30,8 +31,8 @@ const AlertText = ({ text }) => (
   </div>
 );
 
-const Content = ({ msg, userName, loading }) => {
-  msg = msg.sort(sortNumber);
+const Content = ({ msgs, userName, loading }) => {
+  msgs = msgs.sort(sortNumber);
   let msgEle = null;
 
   if (loading) {
@@ -39,7 +40,7 @@ const Content = ({ msg, userName, loading }) => {
       <AlertText text="正在讀取訊息中... 或許是目前聊天室內無任何訊息, 來搶頭香吧!" />
     );
   } else {
-    msgEle = msg.map((content, idx) => (
+    msgEle = msgs.map((content, idx) => (
       <MsgBox
         name={content.name}
         msg={content.msg}
@@ -55,6 +56,18 @@ const Content = ({ msg, userName, loading }) => {
       <div className={styles.scrollArea}>{msgEle}</div>
     </div>
   );
+};
+
+Content.propTypes = {
+  msgs: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      msg: PropTypes.string,
+      dateToShow: PropTypes.string
+    })
+  ),
+  userName: PropTypes.string,
+  loading: PropTypes.bool
 };
 
 export default React.memo(Content);

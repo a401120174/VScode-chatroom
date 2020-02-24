@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./TabBar.module.scss";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const TabBar = ({ tabs, active, onClose }) => {
   return (
@@ -25,6 +26,12 @@ const TabBar = ({ tabs, active, onClose }) => {
       </ul>
     </div>
   );
+};
+
+TabBar.propTypes = {
+  tabs: PropTypes.arrayOf(PropTypes.string),
+  active: PropTypes.string,
+  onClose: PropTypes.func
 };
 
 export default TabBar;

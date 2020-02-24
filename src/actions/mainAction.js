@@ -61,13 +61,6 @@ export const closeTab = tab => {
   };
 };
 
-export const closeTab = tab => {
-  return {
-    type: "CLOSE_TAB",
-    tab
-  };
-};
-
 export const setId = id => {
   return {
     type: "SET_ID",

@@ -1,24 +1,9 @@
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 const getChatMsg = (chatRoom, callback) => {
   const db = firebase.firestore();
-  // console.log(db.collection("chatRoom").doc("aaa"));
-  // console.log(db.collection("chatRoom").doc("大廳"));
-
-  // const docRef = db.collection("chatRoom").doc(chatRoom);
-  // docRef
-  //   .get()
-  //   .then(function(doc) {
-  //     if (doc.exists) {
-  //       console.log("Document data:", doc.data());
-  //     } else {
-  //       // doc.data() will be undefined in this case
-  //       console.log("No such document!");
-  //     }
-  //   })
-  //   .catch(function(error) {
-  //     console.log("Error getting document:", error);
-  //   });
 
   return db
     .collection("chatRoom")
@@ -26,8 +11,8 @@ const getChatMsg = (chatRoom, callback) => {
     .collection("messages")
     .onSnapshot(ref => {
       ref.docChanges().forEach(change => {
-        const { newIndex, oldIndex, doc, type } = change;
-        callback(doc.data());
+        // const { newIndex, oldIndex, doc, type } = change;
+        callback(change.doc.data());
       });
     });
 };
@@ -36,8 +21,7 @@ const getChatRooms = callback => {
   const db = firebase.firestore();
   return db.collection("chatRoom").onSnapshot(ref => {
     ref.docChanges().forEach(change => {
-      const { newIndex, oldIndex, doc, type } = change;
-      callback(doc.data());
+      callback(change.doc.data());
     });
   });
 };
