@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9132d79bc82f1ce7a11b0f29b3eab764",
+    "revision": "d38c72a039eb54087ca838885fb27ca4",
     "url": "/VScodeChat/index.html"
   },
   {
-    "revision": "5ea059873ff118011844",
+    "revision": "3c4ab7615a406c2a433a",
     "url": "/VScodeChat/static/css/main.aff4ae47.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/VScodeChat/static/js/2.00bb7278.chunk.js"
   },
   {
-    "revision": "5ea059873ff118011844",
-    "url": "/VScodeChat/static/js/main.de96ddfb.chunk.js"
+    "revision": "3c4ab7615a406c2a433a",
+    "url": "/VScodeChat/static/js/main.1c87e096.chunk.js"
   },
   {
     "revision": "d4d27a50cdbc7625ab45",

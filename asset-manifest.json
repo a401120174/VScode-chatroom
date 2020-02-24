@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/VScodeChat/static/css/main.aff4ae47.chunk.css",
-    "main.js": "/VScodeChat/static/js/main.de96ddfb.chunk.js",
-    "main.js.map": "/VScodeChat/static/js/main.de96ddfb.chunk.js.map",
+    "main.js": "/VScodeChat/static/js/main.1c87e096.chunk.js",
+    "main.js.map": "/VScodeChat/static/js/main.1c87e096.chunk.js.map",
     "runtime~main.js": "/VScodeChat/static/js/runtime~main.133af899.js",
     "runtime~main.js.map": "/VScodeChat/static/js/runtime~main.133af899.js.map",
     "static/js/2.00bb7278.chunk.js": "/VScodeChat/static/js/2.00bb7278.chunk.js",
     "static/js/2.00bb7278.chunk.js.map": "/VScodeChat/static/js/2.00bb7278.chunk.js.map",
     "index.html": "/VScodeChat/index.html",
-    "precache-manifest.1ad26d0bb1e2460584e6e52206a64369.js": "/VScodeChat/precache-manifest.1ad26d0bb1e2460584e6e52206a64369.js",
+    "precache-manifest.11f569ef43cf3a4718aeb92625d1bfc6.js": "/VScodeChat/precache-manifest.11f569ef43cf3a4718aeb92625d1bfc6.js",
     "service-worker.js": "/VScodeChat/service-worker.js",
     "static/css/main.aff4ae47.chunk.css.map": "/VScodeChat/static/css/main.aff4ae47.chunk.css.map",
     "static/media/char_icon.a85807ca.svg": "/VScodeChat/static/media/char_icon.a85807ca.svg"
