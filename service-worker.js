@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/VScodeChat/precache-manifest.b5ab661745ad2abc64ebdd90134dea56.js"
+  "/VScodeChat/precache-manifest.1ad26d0bb1e2460584e6e52206a64369.js"
 );
 
 self.addEventListener('message', (event) => {
