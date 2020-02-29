@@ -36,21 +36,7 @@ const CuteText = ({ onClick }) => {
 
 const TextInput = ({ onSubmit, onChangeMsg, onAddCute, value, user }) => {
   const inputEl = useRef(null);
-  const submitEl = useRef(null);
-  const [isTyping, setIsTyping] = useState(false);
   const [isCuteOpen, setCuteOpen] = useState(false);
-
-  useEffect(() => {
-    inputEl.current.focus();
-  }, []);
-
-  const handleFocus = e => {
-    setIsTyping(true);
-  };
-
-  const handleBlur = e => {
-    setIsTyping(false);
-  };
 
   const handleCuteBtnClick = e => {
     setCuteOpen(!isCuteOpen);
@@ -61,32 +47,27 @@ const TextInput = ({ onSubmit, onChangeMsg, onAddCute, value, user }) => {
     inputEl.current.focus();
     onAddCute(cute);
   };
+
   return (
     <div className={styles.box}>
       <form onSubmit={onSubmit}>
         <label>
-          <span className={`${isTyping || !!value ? "" : styles.animation}`}>
-            {user || "使用者"} >
-          </span>
+          <span>{user || "使用者"} ></span>
           <input
+            name="msg"
+            type="text"
             ref={inputEl}
             value={value}
             onChange={onChangeMsg}
             className={styles.textInput}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            placeholder="說點甚麼吧..."
           />
         </label>
-        <div className={styles.cuteBtn} onClick={handleCuteBtnClick}>
-          <span>(ﾟ∀ﾟ) </span>
+        <div className={styles.cuteBtn}>
+          <span onClick={handleCuteBtnClick}>(ﾟ∀ﾟ) </span>
           {`<`}-用表情符號來表達你的情感吧~
         </div>
-        <input
-          ref={submitEl}
-          type="submit"
-          value="送出"
-          className={styles.submit}
-        />
+        <input type="submit" value="送出" className={styles.submit} />
         {isCuteOpen && <CuteText onClick={handleAddCute} />}
       </form>
     </div>

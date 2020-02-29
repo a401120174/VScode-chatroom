@@ -8,7 +8,6 @@ import styles from "./Main.module.scss";
 import Content from "../../components/Content/Content";
 import TextInput from "../../components/TextInput/TextInput";
 import TabBar from "../../components/TabBar/TabBar";
-import UserOnlineBar from "../../components/UserOnlineBar/UserOnlineBar";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -53,7 +52,7 @@ const Main = () => {
         userName={state.userName}
         loading={state.loading}
       />
-      <UserOnlineBar />
+      <div className={styles.box} />
       <TextInput
         user={state.userName}
         onSubmit={onSubmit}

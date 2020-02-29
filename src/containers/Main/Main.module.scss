@@ -22,3 +22,15 @@
     }
   }
 }
+
+.box {
+  font-size: 14px;
+  height: 31px;
+  background-color: #303030;
+  color: $fontWhite;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  padding-right: 10px;
+}

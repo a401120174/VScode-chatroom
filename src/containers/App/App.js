@@ -11,7 +11,7 @@ import { getChatMsg, getChatRooms } from "../../firestoreFunction";
 import * as action from "../../actions/mainAction";
 
 import Popup from "../Popup/Popup";
-import AsideBar from "../Aside/Aside";
+import Aside from "../Aside/Aside";
 import Main from "../Main/Main";
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <AsideBar />
+      <Aside />
       <Main />
       <Popup />
     </div>

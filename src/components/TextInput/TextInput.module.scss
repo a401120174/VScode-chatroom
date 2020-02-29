@@ -1,7 +1,7 @@
 @import "../../commonStyle.scss";
 
 .box {
-  height: 168px;
+  min-height: 168px;
   padding: 15px;
   background-color: $bgBlack;
   color: $fontWhite;
@@ -27,22 +27,14 @@
   }
   label {
     display: flex;
+    input {
+      font-size: 14px;
+    }
     > span {
       white-space: nowrap;
       margin-right: 5px;
       display: inline-block;
       position: relative;
-      &.animation::after {
-        content: "";
-        position: absolute;
-        display: block;
-        right: -20px;
-        bottom: 1px;
-        width: 10px;
-        height: 2px;
-        background-color: transparent;
-        animation: shiny 0.5s infinite alternate step-end;
-      }
     }
   }
 }
