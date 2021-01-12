@@ -9,42 +9,26 @@ import { MemoryRouter } from "react-router-dom";
 
 let wrapper;
 let props = {
-  creatRoom: jest.fn(),
-  chatRooms: [{ name: "room #1" }, { name: "room #2" }]
+   creatRoom: jest.fn(),
+   chatRooms: [{ name: "room #1" }, { name: "room #2" }],
 };
 
 beforeEach(() => {
-  wrapper = mount(
-    <MemoryRouter>
-      <AsideBar {...props} />
-    </MemoryRouter>
-  );
+   wrapper = mount(
+      <MemoryRouter>
+         <AsideBar {...props} />
+      </MemoryRouter>
+   );
 });
 
 //clear
 afterEach(() => {
-  wrapper.unmount();
-});
-
-it("renders correct list(Link)s", () => {
-  expect(wrapper.find("li")).toHaveLength(2);
-  expect(
-    wrapper
-      .find("Link")
-      .at(0)
-      .props().to
-  ).toEqual("/room #1");
-  expect(
-    wrapper
-      .find("Link")
-      .at(1)
-      .props().to
-  ).toEqual("/room #2");
+   wrapper.unmount();
 });
 
 //todo:funcional components還找不到方法去抓props的值
 it("has a button that can creat room", () => {
-  expect(wrapper.find("button")).toHaveLength(1);
-  wrapper.find("button").simulate("click");
-  expect(props.creatRoom).toHaveBeenCalledTimes(1);
+   expect(wrapper.find("button")).toHaveLength(1);
+   wrapper.find("button").simulate("click");
+   expect(props.creatRoom).toHaveBeenCalledTimes(1);
 });
