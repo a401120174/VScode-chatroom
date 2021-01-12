@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/VScodeChat/static/css/main.6275d460.chunk.css",
-    "main.js": "/VScodeChat/static/js/main.97fe8e19.chunk.js",
-    "main.js.map": "/VScodeChat/static/js/main.97fe8e19.chunk.js.map",
-    "runtime~main.js": "/VScodeChat/static/js/runtime~main.133af899.js",
-    "runtime~main.js.map": "/VScodeChat/static/js/runtime~main.133af899.js.map",
-    "static/js/2.50b56269.chunk.js": "/VScodeChat/static/js/2.50b56269.chunk.js",
-    "static/js/2.50b56269.chunk.js.map": "/VScodeChat/static/js/2.50b56269.chunk.js.map",
-    "index.html": "/VScodeChat/index.html",
-    "precache-manifest.450a14f05fb88a9d855099eb3f69e9c2.js": "/VScodeChat/precache-manifest.450a14f05fb88a9d855099eb3f69e9c2.js",
-    "service-worker.js": "/VScodeChat/service-worker.js",
-    "static/css/main.6275d460.chunk.css.map": "/VScodeChat/static/css/main.6275d460.chunk.css.map",
-    "static/media/char_icon.a85807ca.svg": "/VScodeChat/static/media/char_icon.a85807ca.svg"
+    "main.css": "/VScode-chatroom/static/css/main.6275d460.chunk.css",
+    "main.js": "/VScode-chatroom/static/js/main.5f565c6d.chunk.js",
+    "main.js.map": "/VScode-chatroom/static/js/main.5f565c6d.chunk.js.map",
+    "runtime~main.js": "/VScode-chatroom/static/js/runtime~main.ab0fcf55.js",
+    "runtime~main.js.map": "/VScode-chatroom/static/js/runtime~main.ab0fcf55.js.map",
+    "static/js/2.577b4f93.chunk.js": "/VScode-chatroom/static/js/2.577b4f93.chunk.js",
+    "static/js/2.577b4f93.chunk.js.map": "/VScode-chatroom/static/js/2.577b4f93.chunk.js.map",
+    "index.html": "/VScode-chatroom/index.html",
+    "precache-manifest.677328a9462617da2993d6be444ede74.js": "/VScode-chatroom/precache-manifest.677328a9462617da2993d6be444ede74.js",
+    "service-worker.js": "/VScode-chatroom/service-worker.js",
+    "static/css/main.6275d460.chunk.css.map": "/VScode-chatroom/static/css/main.6275d460.chunk.css.map",
+    "static/media/char_icon.a85807ca.svg": "/VScode-chatroom/static/media/char_icon.a85807ca.svg"
   }
 }
