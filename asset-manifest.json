@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/VScodeChat/static/css/main.e62d813a.chunk.css",
-    "main.js": "/VScodeChat/static/js/main.d34214bd.chunk.js",
-    "main.js.map": "/VScodeChat/static/js/main.d34214bd.chunk.js.map",
+    "main.css": "/VScodeChat/static/css/main.6275d460.chunk.css",
+    "main.js": "/VScodeChat/static/js/main.97fe8e19.chunk.js",
+    "main.js.map": "/VScodeChat/static/js/main.97fe8e19.chunk.js.map",
     "runtime~main.js": "/VScodeChat/static/js/runtime~main.133af899.js",
     "runtime~main.js.map": "/VScodeChat/static/js/runtime~main.133af899.js.map",
-    "static/js/2.7d08def6.chunk.js": "/VScodeChat/static/js/2.7d08def6.chunk.js",
-    "static/js/2.7d08def6.chunk.js.map": "/VScodeChat/static/js/2.7d08def6.chunk.js.map",
+    "static/js/2.50b56269.chunk.js": "/VScodeChat/static/js/2.50b56269.chunk.js",
+    "static/js/2.50b56269.chunk.js.map": "/VScodeChat/static/js/2.50b56269.chunk.js.map",
     "index.html": "/VScodeChat/index.html",
-    "precache-manifest.03d7430cf8db05dba973efa88eae9609.js": "/VScodeChat/precache-manifest.03d7430cf8db05dba973efa88eae9609.js",
+    "precache-manifest.450a14f05fb88a9d855099eb3f69e9c2.js": "/VScodeChat/precache-manifest.450a14f05fb88a9d855099eb3f69e9c2.js",
     "service-worker.js": "/VScodeChat/service-worker.js",
-    "static/css/main.e62d813a.chunk.css.map": "/VScodeChat/static/css/main.e62d813a.chunk.css.map",
+    "static/css/main.6275d460.chunk.css.map": "/VScodeChat/static/css/main.6275d460.chunk.css.map",
     "static/media/char_icon.a85807ca.svg": "/VScodeChat/static/media/char_icon.a85807ca.svg"
   }
 }
