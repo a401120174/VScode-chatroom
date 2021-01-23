@@ -3,6 +3,7 @@
 及時線上聊天室
 
 使用框架: React.js
+CSS 方案: CSS Modules
 狀態管理: Redux
 資料庫: Firebase
 單元測試: Jest + Enzyme
