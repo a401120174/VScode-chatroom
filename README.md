@@ -1,6 +1,11 @@
 # Visual Studio Code 風格線上聊天室
 
-使用 React + Redux + Firebase + Jest 製作的線上聊天室
+及時線上聊天室
+
+使用框架: React.js
+狀態管理: Redux
+資料庫: Firebase
+單元測試: Jest + Enzyme
 
 ## 主要功能
 
