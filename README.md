@@ -2,11 +2,11 @@
 
 及時線上聊天室
 
-使用框架: React.js
-CSS 方案: CSS Modules
-狀態管理: Redux
-資料庫: Firebase
-單元測試: Jest + Enzyme
+使用框架: React.js <br />
+CSS 方案: CSS Modules <br />
+狀態管理: Redux <br />
+資料庫: Firebase <br />
+單元測試: Jest + Enzyme <br />
 
 ## 主要功能
 
